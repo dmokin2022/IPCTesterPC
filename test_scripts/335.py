@@ -1,0 +1,15 @@
+# Скрипт для камеры 335
+#---------------------------------------
+CAM_MOTOR_FOCUS = CAM.MOTOR0
+CAM_MOTOR_ZOOM = CAM.MOTOR1
+STAND_MOTOR_FOCUS = STAND.ADC1
+STAND_MOTOR_ZOOM = STAND.ADC2
+MAX_ADC = 1023
+MIN_ADC = 100
+MAX_ADC2 = 4095
+#-------------------------------------
+CAM_MOTOR_FOCUS = 50
+? MIN_ADC < STAND_MOTOR_FOCUS < MAX_ADC
+
+CAM_MOTOR_ZOOM = 50
+? 0 < STAND_MOTOR_ZOOM < MAX_ADC2
