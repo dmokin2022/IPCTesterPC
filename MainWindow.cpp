@@ -227,6 +227,7 @@ void MainWindow::setupSingleCamTestPage() {
                                 .arg(ui->comboBox_settingsFiles->currentText());
     ui->textEdit_testResults->append(resultsHeader);
     ui->textEdit_testResults->append("---------------------------------------------------");
+    //tester->testCamInSeparateThreadWith(ui->textEdit_testSettings->toPlainText());
     tester->testCamWith(ui->textEdit_testSettings->toPlainText());
   });
 }

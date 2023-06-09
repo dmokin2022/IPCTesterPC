@@ -17,9 +17,9 @@ public:
 
   QStringList &eval(QString expression);
   void reset();
-  void pause(int millisecondsToWait);
-  void testVariableInit();
 
+  void testVariableInit();
+  void testVariableExecution();
 signals:
   void oneRequestIsCompleted(const QString result);
 

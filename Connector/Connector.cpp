@@ -16,6 +16,7 @@ void Connector::setIp(const QString &ip) { m_ipAddress = ip; }
 void Connector::setPort(int port) { m_ipPort = port; }
 
 void Connector::send(QString string) {
+  lastSentCommand  = string;
   QByteArray array = string.toUtf8() + stringTerminator.toUtf8();
   qDebug() << "Отправлено:" << array;
 

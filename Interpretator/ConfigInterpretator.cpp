@@ -1,8 +1,5 @@
 #include "ConfigInterpretator.hpp"
 
-#include <QCoreApplication>
-#include <QTime>
-
 #include "qregularexpression.h"
 
 ConfigInterpretator::ConfigInterpretator(
@@ -14,8 +11,8 @@ ConfigInterpretator::ConfigInterpretator(
           << "pin"
           << "pwm"
           << "adc"
+          << "dac"
           << "motor"
-          << "sound"
           << "uart"
           << "i2c";
 
@@ -29,7 +26,6 @@ QStringList &ConfigInterpretator::eval(QString expression) {
   // Очистка предыдущих выполненных строк
   strings.clear();
   queryResults.clear();
-  variables.clear();
   // Удаление лишних пробелов
   // Разбить выражение на строки
   // Удаление комментариев
@@ -50,9 +46,9 @@ QStringList &ConfigInterpretator::eval(QString expression) {
       // Сравнение с точным значением
       if (string.contains("=")) {
         //
-        auto parts    = string.split("=");
-        Variable lvar = getValueFrom(parts[0]);
-        Variable rvar = parseRValue(parts[1]);
+        auto parts = string.split("=");
+        auto lvar  = getValueFrom(parts[0]);
+        auto rvar  = parseRValue(parts[1]);
 
         result      = cmpResult(lvar == rvar);
         queryResult = QString("%1=%2 == %3 ......... %4")
@@ -84,15 +80,6 @@ QStringList &ConfigInterpretator::eval(QString expression) {
     } else {
       //
       if (string.isEmpty()) continue;
-
-      // Обработка команды паузы
-      if (string.startsWith("pause")) {
-        QStringList parts = string.split(" ");
-        QString rvalue    = parts[1].simplified();
-        pause(rvalue.toInt());
-        continue;
-      }
-
       QStringList parts = string.split("=");
       QString lvalue    = parts[0].simplified();
       QString rvalue    = parts[1].simplified();
@@ -116,14 +103,6 @@ QStringList &ConfigInterpretator::eval(QString expression) {
 }
 
 void ConfigInterpretator::reset() {}
-
-// Неблокирующая функция задержки между операциями тестирования
-void ConfigInterpretator::pause(int millisecondsToWait) {
-  QTime dieTime = QTime::currentTime().addMSecs(millisecondsToWait);
-  while (QTime::currentTime() < dieTime) {
-    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-  }
-}
 
 Variable ConfigInterpretator::parseRValue(const QString &rvalue_) {
   // Всё таки лучше возвращать явное копируемое значение Variable

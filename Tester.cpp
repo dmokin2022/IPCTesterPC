@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QDirIterator>
+#include <thread>
 
 #include "Configs/CameraConfig.h"
 #include "Configs/Config.h"
@@ -135,8 +136,8 @@ void Tester::testUart() {
 }
 
 void Tester::testAlarmInOut() {
-  cameras[currentCam]->setGpioSync(ALARM_PIN_OUT, ALARM_ACTIVE_VALUE);
-  auto value = cameras[currentCam]->getGpioSync(ALARM_PIN_IN);
+  cameras[currentCam]->setGpio(ALARM_PIN_OUT, ALARM_ACTIVE_VALUE);
+  auto value = cameras[currentCam]->getGpio(ALARM_PIN_IN);
 
   TestData testData(ALARM_TEST_NAME, value, ALARM_ACTIVE_VALUE);
   testResults[testData.name] = testData;
@@ -198,8 +199,10 @@ void Tester::testAllCams() {
   //for (auto &cam : cameras) {}
 }
 
-void Tester::makeTestInSeparateThread() {
+void Tester::testCamInSeparateThreadWith(const QString &script) {
   //
+  std::thread testThread {[=]() { this->testCamWith(script); }};
+  testThread.detach();
 }
 
 QString Tester::getVideoStreamUrlOfCam(int currentCam) {

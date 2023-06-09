@@ -46,7 +46,7 @@ public:
 
   void testCam(int currentCam);
   void testAllCams();
-  void makeTestInSeparateThread();
+  void testCamInSeparateThreadWith(const QString &script);
 
   // Подключение к аппаратуре
   StandCommander *stand;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QEventLoop>
 #include <QObject>
 
 #include "Connector/Connector.hpp"
@@ -18,26 +19,27 @@ public slots:
 
   // Команды управления платой/камерой
   void setGpio(int pin, int value);
-  int getGpio(int pin, int &value);
-  int getAdc(int channel, int &value);
+  int getGpio(int pin);
+  int getAdc(int channel);
   void setPwm(int pin, int value);
   void setMotor(int number, int value);
-  void setDac(int pin, int value);
+  void setSound(int duration, int freq);
+  int getSound();
   void sendUart(int uartNum, QString string);
-  QString receiveUart(int uartNum, QString &string);
+  QString receiveUart(int uartNum);
   void sendI2c(int i2cNum, QString string);
-  QString receiveI2c(int i2c, QString &string);
+  QString receiveI2c(int i2c);
 
-  void setGpioSync(int pin, int value);
-  int getGpioSync(int pin);
-  int getAdcSync(int channel);
-  void setPwmSync(int pin, int value);
-  void setMotorSync(int number, int value);
-  void setDacSync(int pin, int value);
-  void sendUartSync(int uartNum, QString string);
-  QString receiveUartSync(int uartNum);
-  void sendI2cSync(int i2cNum, QString string);
-  QString receiveI2cSync(int i2c);
+  //  void setGpioSync(int pin, int value);
+  //  int getGpioSync(int pin);
+  //  int getAdcSync(int channel);
+  //  void setPwmSync(int pin, int value);
+  //  void setMotorSync(int number, int value);
+  //  void setDacSync(int pin, int value);
+  //  void sendUartSync(int uartNum, QString string);
+  //  QString receiveUartSync(int uartNum);
+  //  void sendI2cSync(int i2cNum, QString string);
+  //  QString receiveI2cSync(int i2c);
 
 signals:
   void receivedInt(const int value);
@@ -45,8 +47,10 @@ signals:
 
 private:
   QString command;
+  QString lastSentCommand;
   bool responseIsReady;
   QString responseString;
-  int *intVal;
-  QString *strVal;
+  int intVal;
+  QString strVal;
+  QEventLoop *el;
 };

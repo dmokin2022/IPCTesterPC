@@ -17,10 +17,11 @@ public:
 
   QString m_ipAddress;
   int m_ipPort;
+  QString lastSentCommand;
 
 signals:
   void readyToBeParsed(const QString string);
-  void messageWasTransmitted(const QString string);
+  void messageWasTransmitted(const QString &string);
 
 public slots:
   QString readStringFromBuffer();
@@ -31,5 +32,4 @@ public slots:
 private:
   QTcpSocket *tcpSocket;
   QString stringTerminator;
-  //QDataStream *in;
 };
